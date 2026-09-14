@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的作品集｜數位科技概論學習成果</title>
+  <style>
+    /* 全域變數與重設 */
+    :root {
+      --bg-color: #f4f9f4;
+      --card-bg: #ffffff;
+      --primary-color: #4a7c59;
+      --accent-color: #70e000;
+      --text-color: #2b3a2f;
+      --border-color: #d3e2d6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* 頁首與頁內導覽 */
+    header {
+      background-color: var(--card-bg);
+      border-bottom: 3px solid var(--accent-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* 無障礙鍵盤焦點 */
+    a:focus-visible {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    nav a:hover {
+      color: var(--primary-color);
+      background-color: var(--bg-color);
+    }
+
+    /* 主要內容區塊 */
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555555;
+      margin-bottom: 1rem;
+    }
+
+    /* 作品區網格排版 */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .portfolio-card {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      font-size: 0.85rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      margin-top: 0.5rem;
+    }
+
+    /* 清單樣式 */
+    ul.goals-list {
+      padding-left: 1.2rem;
+    }
+
+    ul.goals-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* 頁尾 */
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      color: #666666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頁首與導覽 -->
+  <header>
+    <div class="nav-container">
+      <div class="site-title">我的作品集</div>
+      <nav>
+        <ul>
+          <li><a href="#about">關於我</a></li>
+          <li><a href="#projects">作品區</a></li>
+          <li><a href="#goals">學習目標</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 主視覺 / 簡介 -->
+    <section>
+      <h1>我的作品集</h1>
+      <p class="subtitle">我愛工作｜我的學習教材作品集</p>
+      <p>歡迎來到我的個人網站！我是大一學生，這裡主要用來展示在「數位科技概論」課程中的各項學習成果與專案練習。</p>
+    </section>
+
+    <!-- 關於我 -->
+    <section id="about">
+      <h2>關於我與學習興趣</h2>
+      <p>嗨！我是「我的作品集」，目前是一名大一學生。「我愛工作」是我的學習態度，期許自己能在大學期間積累豐富的實務經驗。</p>
+      <p>在「數位科技概論」這門課中，我對網頁前端設計（HTML & CSS）、數位媒體應用以及資訊系統的運作架構抱持著濃厚的興趣，希望能透過動手實作，將所學轉化為具體的作品。</p>
+    </section>
+
+    <!-- 作品區 -->
+    <section id="projects">
+      <h2>學習作品區</h2>
+      <div class="portfolio-grid">
+        <article class="portfolio-card">
+          <h3>期中作品</h3>
+          <p>整合 HTML 基礎結構與 CSS 風格設計的個人作品集展示。</p>
+          <span class="badge">準備中</span>
+        </article>
+
+        <article class="portfolio-card">
+          <h3>期末作品</h3>
+          <p>結合完整網頁排版與無障礙網頁設計的綜合性主題作品。</p>
+          <span class="badge">準備中</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- 學習目標 -->
+    <section id="goals">
+      <h2>學習目標</h2>
+      <ul class="goals-list">
+        <li>熟練掌握 HTML5 語意化標籤與語法結構。</li>
+        <li>學會運用 CSS 排版（Flexbox 與 Grid）打造響應式網頁。</li>
+        <li>掌握基礎網頁無障礙（Accessibility）與色彩對比度規範。</li>
+        <li>建立良好的版本控制習慣，並透過 GitHub Pages 發布網站。</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- 頁尾 -->
+  <footer>
+    <p>&copy; 2026 我的作品集｜數位科技概論學習成果展示</p>
+  </footer>
+
+</body>
+</html>
