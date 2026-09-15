@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<lang="zh-Hant">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -134,6 +134,32 @@
       padding: 1.5rem;
     }
 
+    /* 可點擊的卡片：整張卡片變成連結 */
+    a.portfolio-card {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      border-left: 4px solid var(--accent-color);
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    a.portfolio-card:hover {
+      background-color: #ffffff;
+      border-color: var(--primary-color);
+    }
+
+    a.portfolio-card h3 {
+      color: var(--primary-color);
+    }
+
+    .card-link-text {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
     .badge {
       display: inline-block;
       background-color: var(--primary-color);
@@ -189,14 +215,22 @@
     <!-- 關於我 -->
     <section id="about">
       <h2>關於我與學習興趣</h2>
-      <p>嗨！我是「我的作品集」，目前是一名大一學生。「我愛工作」是我的學習態度，期許自己能在大學期間積累豐富的實務經驗。</p>
-      <p>在「數位科技概論」這門課中，我對網頁前端設計（HTML & CSS）、數位媒體應用以及資訊系統的運作架構抱持著濃厚的興趣，希望能透過動手實作，將所學轉化為具體的作品。</p>
+      <p>嗨！我喜歡剪輯有趣的影片，喜歡用小時間換大成果，用ai做出以前沒有基礎知識很難做出來的媒體材料時，會讓我很有成就感。</p>
+      <p>在「數位科技概論」這門課中，我對網頁前端設計（HTML &amp; CSS）、數位媒體應用以及資訊系統的運作架構抱持著濃厚的興趣，希望能透過動手實作，將所學轉化為具體的作品。</p>
     </section>
 
     <!-- 作品區 -->
     <section id="projects">
       <h2>學習作品區</h2>
       <div class="portfolio-grid">
+        <!-- 可點擊的課程卡片：連到獨立的詳細頁面 -->
+        <a class="portfolio-card" href="digital-tech.html">
+          <h3>數位科技概論</h3>
+          <p>課程的單元紀錄、實作練習與學習心得整理。</p>
+          <span class="badge">課程紀錄</span>
+          <span class="card-link-text">查看課程詳細內容</span>
+        </a>
+
         <article class="portfolio-card">
           <h3>期中作品</h3>
           <p>整合 HTML 基礎結構與 CSS 風格設計的個人作品集展示。</p>

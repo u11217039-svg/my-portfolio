@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>數位科技概論｜我的作品集</title>
+  <style>
+    /* 全域變數與重設（與首頁一致） */
+    :root {
+      --bg-color: #f4f9f4;
+      --card-bg: #ffffff;
+      --primary-color: #4a7c59;
+      --accent-color: #70e000;
+      --text-color: #2b3a2f;
+      --border-color: #d3e2d6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--card-bg);
+      border-bottom: 3px solid var(--accent-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    nav a:hover {
+      color: var(--primary-color);
+      background-color: var(--bg-color);
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: var(--text-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555555;
+    }
+
+    /* 麵包屑：讓使用者知道自己在哪一層 */
+    .breadcrumb {
+      max-width: 960px;
+      margin: 1.5rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666666;
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+    }
+
+    /* 課程基本資料表格 */
+    .course-info {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .course-info th,
+    .course-info td {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .course-info th {
+      width: 8rem;
+      color: var(--primary-color);
+      background-color: var(--bg-color);
+      white-space: nowrap;
+    }
+
+    /* 單元列表 */
+    .unit-list {
+      list-style: none;
+      counter-reset: unit;
+    }
+
+    .unit-list li {
+      counter-increment: unit;
+      padding: 1rem 0 1rem 3rem;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .unit-list li:last-child {
+      border-bottom: none;
+    }
+
+    .unit-list li::before {
+      content: "第 " counter(unit) " 週";
+      position: absolute;
+      left: 0;
+      top: 1rem;
+      font-size: 0.75rem;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+
+    /* 技能標籤 */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .skill-tags li {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    /* 返回首頁按鈕 */
+    .back-link {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      background-color: #3a6246;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      color: #666666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頁首與導覽（回到首頁的各個區塊） -->
+  <header>
+    <div class="nav-container">
+      <div class="site-title">我的作品集</div>
+      <nav>
+        <ul>
+          <li><a href="index.html#about">關於我</a></li>
+          <li><a href="index.html#projects">作品區</a></li>
+          <li><a href="index.html#goals">學習目標</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 麵包屑導覽 -->
+  <p class="breadcrumb">
+    <a href="index.html">首頁</a> ／ <a href="index.html#projects">學習作品區</a> ／ 數位科技概論
+  </p>
+
+  <main>
+    <!-- 課程標題與簡介 -->
+    <section>
+      <h1>數位科技概論</h1>
+      <p class="subtitle">一學期下來，我在這門課做了什麼、學到什麼</p>
+      <table class="course-info">
+        <tr>
+          <th scope="row">修課學期</th>
+          <td>115 學年度第 1 學期</td>
+        </tr>
+        <tr>
+          <th scope="row">授課教師</th>
+          <td>劉宇陽</td>
+        </tr>
+        <tr>
+          <th scope="row">學分數</th>
+          <td>2 學分</td>
+        </tr>
+        <tr>
+          <th scope="row">課程性質</th>
+          <td>甲類選修</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- 課程內容 -->
+    <section>
+      <h2>這門課在學什麼</h2>
+      <p>數位科技概論從資訊科技的基本概念出發，介紹電腦硬體與軟體的運作原理、網際網路架構、資料的數位化與儲存方式，並延伸到近年常被討論的雲端運算、資料分析與人工智慧應用。課程不只講理論，也安排實作練習，讓我們親手做出可以展示的成果。</p>
+    </section>
+
+    <!-- 單元紀錄 -->
+    <section>
+      <h2>各週單元紀錄</h2>
+      <ol class="unit-list">
+        <li>
+          <h3>課程介紹與數位科技概觀</h3>
+          <p>了解數位與類比的差異，以及數位科技如何影響日常生活。</p>
+        </li>
+        <li>
+          <h3>基礎語法應用學習</h3>
+          <p>學習 HTML 基礎與語意化結構，CSS 視覺與版型設計</p>
+        </li>
+     
+      </ol>
+         </section>
+
+    <!-- 學到的技能 -->
+    <section>
+      <h2>我在這門課學到的技能</h2>
+      <ul class="skill-tags">
+        <li>HTML5 語意化標籤</li>
+        <li>CSS 選擇器與盒模型</li>
+        <li>Flexbox 版面排版</li>
+        <li>CSS Grid 網格系統</li>
+        <li>響應式網頁設計</li>
+        <li>網頁無障礙基礎</li>
+        <li>GitHub Pages 發布</li>
+      </ul>
+    </section>
+
+    <!-- 學習心得 -->
+    <section>
+      <h2>學習心得</h2>
+      <p>剛開始看到一堆標籤和屬性覺得很陌生，但實際動手把自己的網頁一行一行寫出來之後，反而覺得比想像中好懂。最有成就感的是改一行 CSS，畫面就跟著變，那種即時回饋讓我願意一直試下去。</p>
+      <p>這門課也讓我重新看待自己原本就在做的影片剪輯——原來壓縮、格式、解析度背後都有對應的原理，知道原理之後再去調參數，就不再只是憑感覺亂試。</p>
+         </section>
+
+    <!-- 返回首頁 -->
+    <section>
+      <a class="back-link" href="index.html#projects">返回學習作品區</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 我的作品集｜數位科技概論學習成果展示</p>
+  </footer>
+
+</body>
+</html>
