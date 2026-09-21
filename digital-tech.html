@@ -193,6 +193,66 @@
       font-size: 0.9rem;
     }
 
+    /* 課堂作業卡片區 */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    a.work-card {
+      display: block;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-color);
+      border-radius: 6px;
+      padding: 1.5rem;
+      color: inherit;
+      text-decoration: none;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    a.work-card:hover {
+      background-color: #ffffff;
+      border-color: var(--primary-color);
+    }
+
+    a.work-card h3 {
+      color: var(--primary-color);
+    }
+
+    .work-topic {
+      font-size: 0.85rem;
+      color: #666666;
+      margin-bottom: 0.5rem;
+    }
+
+    .work-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      list-style: none;
+      margin-top: 0.75rem;
+    }
+
+    .work-tags li {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.8rem;
+      color: #555555;
+    }
+
+    .card-link-text {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
     /* 返回首頁按鈕 */
     .back-link {
       display: inline-block;
@@ -280,9 +340,65 @@
           <h3>基礎語法應用學習</h3>
           <p>學習 HTML 基礎與語意化結構，CSS 視覺與版型設計</p>
         </li>
-     
       </ol>
-         </section>
+    </section>
+
+    <!-- 課堂作業 -->
+    <section id="works">
+      <h2>課堂作業</h2>
+      <p>每次實作練習交出去的檔案都收在這裡，點卡片可以直接開啟完整的網頁。</p>
+      <div class="work-grid">
+
+        <a class="work-card" href="01-html-text-u11217039.html">
+          <p class="work-topic">作業 01</p>
+          <h3>文字標籤練習</h3>
+          <p>以「水與生活：小小科學探索日」為題，練習標題層級與文字語意標籤。</p>
+          <ul class="work-tags">
+            <li>h1–h3</li>
+            <li>sub / sup</li>
+            <li>語意標籤</li>
+          </ul>
+          <span class="card-link-text">開啟作業頁面</span>
+        </a>
+
+        <a class="work-card" href="02-html-media-u11217039.html">
+          <p class="work-topic">作業 02</p>
+          <h3>多媒體元素練習</h3>
+          <p>以「校園自然觀察任務卡」為題，練習嵌入圖片、音訊與影片，並搭配替代文字說明。</p>
+          <ul class="work-tags">
+            <li>img / alt</li>
+            <li>audio</li>
+            <li>video</li>
+          </ul>
+          <span class="card-link-text">開啟作業頁面</span>
+        </a>
+
+        <a class="work-card" href="03-html-plan-u11217039.html">
+          <p class="work-topic">作業 03</p>
+          <h3>清單與表格練習</h3>
+          <p>以「紙橋挑戰社」活動準備頁為題，用清單整理材料與步驟，並用表格呈現小組分工。</p>
+          <ul class="work-tags">
+            <li>ul / ol</li>
+            <li>table</li>
+            <li>scope 屬性</li>
+          </ul>
+          <span class="card-link-text">開啟作業頁面</span>
+        </a>
+
+        <a class="work-card" href="04-html-form-u11217039.html">
+          <p class="work-topic">作業 04</p>
+          <h3>表單元件練習</h3>
+          <p>製作「放學後社團體驗表」，練習各種輸入元件與標籤綁定；此頁為介面練習，不會送出資料。</p>
+          <ul class="work-tags">
+            <li>label / input</li>
+            <li>select</li>
+            <li>fieldset</li>
+          </ul>
+          <span class="card-link-text">開啟作業頁面</span>
+        </a>
+
+      </div>
+    </section>
 
     <!-- 學到的技能 -->
     <section>
@@ -303,7 +419,7 @@
       <h2>學習心得</h2>
       <p>剛開始看到一堆標籤和屬性覺得很陌生，但實際動手把自己的網頁一行一行寫出來之後，反而覺得比想像中好懂。最有成就感的是改一行 CSS，畫面就跟著變，那種即時回饋讓我願意一直試下去。</p>
       <p>這門課也讓我重新看待自己原本就在做的影片剪輯——原來壓縮、格式、解析度背後都有對應的原理，知道原理之後再去調參數，就不再只是憑感覺亂試。</p>
-         </section>
+    </section>
 
     <!-- 返回首頁 -->
     <section>
