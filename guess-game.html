@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>幾A幾B 猜數字遊戲｜我的作品集</title>
+  <style>
+    :root {
+      --bg-color: #f4f9f4; --card-bg: #ffffff; --primary-color: #4a7c59;
+      --accent-color: #70e000; --text-color: #2b3a2f; --border-color: #d3e2d6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background-color: var(--bg-color); color: var(--text-color); line-height: 1.6;
+    }
+    header { background-color: var(--card-bg); border-bottom: 3px solid var(--accent-color); position: sticky; top: 0; z-index: 100; }
+    .nav-container { max-width: 960px; margin: 0 auto; padding: 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+    .site-title { font-size: 1.25rem; font-weight: bold; color: var(--primary-color); }
+    nav ul { display: flex; list-style: none; gap: 1rem; }
+    nav a { color: var(--text-color); text-decoration: none; font-weight: 500; padding: 0.25rem 0.5rem; border-radius: 4px; }
+    nav a:hover { color: var(--primary-color); background-color: var(--bg-color); }
+    a:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 2px; }
+    .breadcrumb { max-width: 960px; margin: 1.5rem auto 0; padding: 0 1rem; font-size: 0.9rem; color: #666666; }
+    .breadcrumb a { color: var(--primary-color); }
+    main { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+    section { background-color: var(--card-bg); border-radius: 8px; padding: 2rem; margin-bottom: 2rem; border: 1px solid var(--border-color); }
+    h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+    h2 { font-size: 1.5rem; color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 1.1rem; color: #555555; margin-bottom: 1rem; }
+    ul.plain { padding-left: 1.2rem; }
+    ul.plain li { margin-bottom: 0.4rem; }
+    .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    a.work-card { display: block; background-color: var(--bg-color); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-color); border-radius: 6px; padding: 1.5rem; color: inherit; text-decoration: none; transition: border-color 0.2s, background-color 0.2s; }
+    a.work-card:hover { background-color: #ffffff; border-color: var(--primary-color); }
+    a.work-card h3 { color: var(--primary-color); }
+    .work-topic { font-size: 0.85rem; color: #666666; margin-bottom: 0.5rem; }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin-top: 0.75rem; }
+    .work-tags li { background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 0.15rem 0.6rem; font-size: 0.8rem; color: #555555; }
+    .card-link-text { display: inline-block; margin-top: 0.75rem; font-size: 0.9rem; font-weight: 500; color: var(--primary-color); }
+    .note { margin-top: 1rem; padding: 0.75rem 1rem; background-color: var(--bg-color); border-left: 4px solid var(--primary-color); border-radius: 4px; font-size: 0.95rem; }
+    .back-link { display: inline-block; background-color: var(--primary-color); color: #ffffff; text-decoration: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; }
+    .back-link:hover { background-color: #3a6246; }
+    footer { text-align: center; padding: 1.5rem 0; color: #666666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="site-title">我的作品集</div>
+      <nav>
+        <ul>
+          <li><a href="index.html#about">關於我</a></li>
+          <li><a href="index.html#projects">作品區</a></li>
+          <li><a href="index.html#goals">學習目標</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <p class="breadcrumb">
+    <a href="index.html">首頁</a> ／ <a href="index.html#projects">學習作品區</a> ／ 幾A幾B 猜數字遊戲
+  </p>
+
+  <main>
+    <section>
+      <h1>幾A幾B 猜數字遊戲</h1>
+      <p class="subtitle">同一個遊戲，從單機網頁一路做到 Google 帳號個人存檔</p>
+      <ul class="plain">
+        <li>答案由 0～9 中四個不重複的數字組成，可以 0 開頭。</li>
+        <li>A 表示數字與位置都正確，B 表示數字正確但位置不同；猜中 4A0B 就完成本局。</li>
+        <li>四個版本都附有「除錯模式」，方便驗收時查看目前這一局的答案。</li>
+      </ul>
+    </section>
+
+    <section id="versions">
+      <h2>四個版本</h2>
+      <p>點卡片可以開啟各版本的遊戲。版本三與版本四在新分頁開啟，資料會存到 Google 試算表。</p>
+      <div class="work-grid">
+
+        <a class="work-card" href="guess-v1.html">
+          <p class="work-topic">版本 1</p>
+          <h3>單機基本版</h3>
+          <p>輸入四個數字，判斷幾 A 幾 B，並有猜測紀錄與除錯模式。</p>
+          <ul class="work-tags"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+          <span class="card-link-text">開啟遊戲</span>
+        </a>
+
+        <a class="work-card" href="guess-v2.html">
+          <p class="work-topic">版本 2</p>
+          <h3>多局歷史版</h3>
+          <p>每局分開記錄，開新局可保留舊局，並標示進行中、已猜對、未完成。重新整理後歷史會清空。</p>
+          <ul class="work-tags"><li>多局歷史</li><li>局狀態</li></ul>
+          <span class="card-link-text">開啟遊戲</span>
+        </a>
+
+        <!-- 把下面 href 換成版本三部署後的 /exec 網址 -->
+        <a class="work-card" href="https://script.google.com/a/macros/go.utaipei.edu.tw/s/AKfycbzIas-GVUkTmInq2KNHUY5e2IVian6OQDdHQltWFwaGd8SFA0usS8XAjSUeGahK594SVQ/exec" target="_blank" rel="noopener">
+          <p class="work-topic">版本 3</p>
+          <h3>代號＋雲端存檔版</h3>
+          <p>輸入代號，每次有效猜測自動存到試算表；同代號可讀回並續玩未完成的局。</p>
+          <ul class="work-tags"><li>Google Apps Script</li><li>試算表</li></ul>
+          <span class="card-link-text">開啟遊戲（新分頁）</span>
+        </a>
+
+        <!-- 把下面 href 換成版本四部署後的 /exec 網址 -->
+        <a class="work-card" href="https://script.google.com/a/macros/go.utaipei.edu.tw/s/AKfycbw5ty97mJW5xZzDBLkGbbaacUlljs3N84F7f7tzghJKCk0afZ4ZSDMgbfB-YyFJ6lvO/exec" target="_blank" rel="noopener">
+          <p class="work-topic">版本 4</p>
+          <h3>Google 帳號個人存檔版</h3>
+          <p>用 Google 帳號辨認玩家，每個人有自己的試算表；同帳號回來就能讀回續玩。</p>
+          <ul class="work-tags"><li>Google 登入</li><li>個人存檔</li></ul>
+          <span class="card-link-text">開啟遊戲（新分頁）</span>
+        </a>
+
+      </div>
+
+      <p class="note"><strong>版本三：</strong>代號不是登入，知道同代號的人可以操作同一份紀錄，請不要用個資當代號。</p>
+      <p class="note"><strong>版本四：</strong>需要登入 Google 並授權。首次使用會要求試算表與帳號 Email 權限，授權範圍比單一遊戲檔案更廣；進入後還要按「建立我的遊戲存檔」，才會在你自己的雲端硬碟建立試算表。畫面可能出現「未驗證」提示，這是課堂作品的正常現象，請只授權你信任的程式。</p>
+    </section>
+
+    <section>
+      <a class="back-link" href="index.html#projects">返回學習作品區</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 我的作品集｜數位科技概論學習成果展示</p>
+  </footer>
+
+</body>
+</html>

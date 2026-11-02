@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>幾A幾B 猜數字</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap">
+<style>
+:root{
+  --bg:#e8f5e1; --paper:#f6fbf1; --ink:#2f4a2f; --line:#6f9a63; --soft:#cfe8c3;
+  --accent:#8cc57a; --warn:#c0553a; --ok:#3f8a3a; --shadow:#a9cf9b;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1e2b1e; --paper:#273627; --ink:#dcecd3; --line:#7fae72; --soft:#34493a;
+    --accent:#5f9455; --warn:#e8896f; --ok:#9be08f; --shadow:#142014; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1e2b1e; --paper:#273627; --ink:#dcecd3; --line:#7fae72; --soft:#34493a;
+  --accent:#5f9455; --warn:#e8896f; --ok:#9be08f; --shadow:#142014; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kurenaido","Kaiti TC","DFKai-SB","Comic Sans MS",cursive,sans-serif;
+  font-size:18px;line-height:1.6;padding:16px;
+  background-image:radial-gradient(var(--soft) 1.5px,transparent 1.5px);background-size:22px 22px}
+.wrap{max-width:560px;margin:0 auto}
+.card{background:var(--paper);border:3px solid var(--line);
+  border-radius:255px 18px 225px 18px/18px 225px 18px 255px;
+  box-shadow:5px 6px 0 var(--shadow);padding:20px 22px;margin-bottom:18px}
+h1{margin:0 0 4px;font-size:2rem;text-align:center;transform:rotate(-1.5deg)}
+.sub{text-align:center;margin:0 0 6px}
+ul.rules{margin:8px 0 0;padding-left:1.2em;font-size:.95rem}
+.digits{display:flex;gap:12px;justify-content:center;margin:12px 0}
+.digits input{width:62px;height:72px;text-align:center;font:inherit;font-size:2rem;color:var(--ink);
+  background:#fff0;border:3px dashed var(--line);border-radius:18px 8px 20px 10px/10px 20px 8px 18px;outline:none}
+.digits input:nth-child(even){transform:rotate(1.5deg)}
+.digits input:nth-child(odd){transform:rotate(-1.5deg)}
+.digits input:focus{background:var(--soft);border-style:solid}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+button{font:inherit;font-size:1.05rem;color:var(--ink);background:var(--accent);cursor:pointer;
+  border:3px solid var(--line);border-radius:30px 10px 28px 12px/12px 28px 10px 30px;
+  padding:6px 20px;box-shadow:3px 4px 0 var(--shadow)}
+button:hover{transform:translateY(-1px) rotate(-1deg)}
+button:active{transform:translate(2px,3px);box-shadow:none}
+button.alt{background:var(--paper)}
+button:disabled{opacity:.5;cursor:not-allowed}
+#msg{min-height:1.8em;text-align:center;margin:10px 0 0;font-size:1.05rem}
+#msg.err{color:var(--warn)} #msg.ok{color:var(--ok);font-size:1.2rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.sw input{width:22px;height:22px;accent-color:var(--ok);cursor:pointer}
+#dbg{margin-top:10px;padding:6px 14px;text-align:center;border:2px dashed var(--warn);
+  border-radius:14px 6px 16px 8px;color:var(--warn)}
+[hidden]{display:none!important}
+ol#hist{list-style:none;margin:8px 0 0;padding:0;max-height:340px;overflow-y:auto}
+#hist li{display:flex;justify-content:space-between;align-items:center;padding:6px 4px;border-bottom:2px dotted var(--line)}
+#hist .n{opacity:.6;width:2.2em}
+#hist .g{letter-spacing:.3em;font-size:1.4rem;flex:1}
+#hist .r{font-size:1.2rem;font-weight:bold}
+.empty{opacity:.6;text-align:center;margin:8px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>🌿 幾A幾B 猜數字</h1>
+    <p class="sub">猜出藏起來的四位數字吧！</p>
+    <ul class="rules">
+      <li>答案由 0～9 中四個不重複的數字組成，可以 0 開頭。</li>
+      <li>A＝數字與位置都對；B＝數字對但位置不同。</li>
+      <li>猜中 4A0B 就完成本局！</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="top">
+      <strong id="count">已猜 0 次</strong>
+      <label class="sw"><input type="checkbox" id="debug"> 除錯模式</label>
+    </div>
+    <div id="dbg" hidden>🔍 本局答案：<b id="ans"></b></div>
+
+    <div class="digits" id="boxes">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 1 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 2 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 3 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 4 位">
+    </div>
+    <div class="row">
+      <button id="go">送出猜測</button>
+      <button id="new" class="alt">開新局</button>
+    </div>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="card">
+    <strong>📝 猜測紀錄</strong>
+    <p class="empty" id="empty">還沒有紀錄，快來猜第一次吧～</p>
+    <ol id="hist"></ol>
+  </div>
+</div>
+
+<script>
+(function(){
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#boxes input'));
+  var msg = document.getElementById('msg'), hist = document.getElementById('hist');
+  var empty = document.getElementById('empty'), count = document.getElementById('count');
+  var dbg = document.getElementById('debug'), dbgBox = document.getElementById('dbg');
+  var ansEl = document.getElementById('ans'), go = document.getElementById('go');
+  var answer = '', guesses = 0, over = false;
+
+  function draw(){
+    var d = '0123456789'.split('');
+    for (var i = d.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = d[i]; d[i] = d[j]; d[j] = t;
+    }
+    return d.slice(0, 4).join('');
+  }
+  function say(t, cls){ msg.textContent = t; msg.className = cls || ''; }
+  function showDebug(){ dbgBox.hidden = !dbg.checked; ansEl.textContent = answer; }
+  function clearBoxes(){ boxes.forEach(function(b){ b.value = ''; }); boxes[0].focus(); }
+
+  function newGame(){
+    answer = draw(); guesses = 0; over = false;
+    hist.innerHTML = ''; empty.hidden = false;
+    count.textContent = '已猜 0 次';
+    dbg.checked = false; showDebug();
+    go.disabled = false;
+    boxes.forEach(function(b){ b.disabled = false; });
+    say('新的一局開始囉！');
+    clearBoxes();
+  }
+
+  function score(g){
+    var a = 0, b = 0;
+    for (var i = 0; i < 4; i++) {
+      if (g[i] === answer[i]) a++;
+      else if (answer.indexOf(g[i]) !== -1) b++;
+    }
+    return [a, b];
+  }
+
+  function submit(){
+    if (over) return;
+    var vals = boxes.map(function(b){ return b.value.trim(); });
+    if (vals.some(function(v){ return v === ''; })) return say('請填滿四個位置，不能留白喔！', 'err');
+    if (vals.some(function(v){ return !/^[0-9]$/.test(v); })) return say('只能輸入 0～9 的數字喔！', 'err');
+    var g = vals.join('');
+    if (new Set(vals).size !== 4) return say('四個數字不可以重複，請修正後再送出！', 'err');
+
+    var r = score(g); guesses++;
+    count.textContent = '已猜 ' + guesses + ' 次';
+    empty.hidden = true;
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="n"></span><span class="g"></span><span class="r"></span>';
+    li.children[0].textContent = '#' + guesses;
+    li.children[1].textContent = g;
+    li.children[2].textContent = r[0] + 'A' + r[1] + 'B';
+    hist.appendChild(li); hist.scrollTop = hist.scrollHeight;
+
+    if (r[0] === 4) {
+      over = true; go.disabled = true;
+      boxes.forEach(function(b){ b.disabled = true; });
+      say('🎉 4A0B！答案是 ' + answer + '，你共猜了 ' + guesses + ' 次。', 'ok');
+    } else {
+      say('結果：' + r[0] + 'A' + r[1] + 'B，再試試看！');
+      clearBoxes();
+    }
+  }
+
+  boxes.forEach(function(b, i){
+    b.addEventListener('input', function(){
+      if (/^[0-9]$/.test(b.value) && i < 3) boxes[i + 1].focus();
+    });
+    b.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') submit();
+      else if (e.key === 'Backspace' && b.value === '' && i > 0) boxes[i - 1].focus();
+      else if (e.key === 'ArrowLeft' && i > 0) boxes[i - 1].focus();
+      else if (e.key === 'ArrowRight' && i < 3) boxes[i + 1].focus();
+    });
+    b.addEventListener('focus', function(){ b.select(); });
+  });
+
+  go.addEventListener('click', submit);
+  document.getElementById('new').addEventListener('click', newGame);
+  dbg.addEventListener('change', showDebug); // 只切換顯示，不影響答案、紀錄與次數
+
+  newGame();
+})();
+</script>
+</body>
+</html>

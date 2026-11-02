@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>幾A幾B 猜數字 版本2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap">
+<style>
+:root{
+  --bg:#e8f5e1; --paper:#f6fbf1; --ink:#2f4a2f; --line:#6f9a63; --soft:#cfe8c3;
+  --accent:#8cc57a; --warn:#c0553a; --ok:#3f8a3a; --shadow:#a9cf9b;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1e2b1e; --paper:#273627; --ink:#dcecd3; --line:#7fae72; --soft:#34493a;
+    --accent:#5f9455; --warn:#e8896f; --ok:#9be08f; --shadow:#142014; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1e2b1e; --paper:#273627; --ink:#dcecd3; --line:#7fae72; --soft:#34493a;
+  --accent:#5f9455; --warn:#e8896f; --ok:#9be08f; --shadow:#142014; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kurenaido","Kaiti TC","DFKai-SB","Comic Sans MS",cursive,sans-serif;
+  font-size:18px;line-height:1.6;padding:16px;
+  background-image:radial-gradient(var(--soft) 1.5px,transparent 1.5px);background-size:22px 22px}
+.wrap{max-width:600px;margin:0 auto}
+.card{background:var(--paper);border:3px solid var(--line);
+  border-radius:255px 18px 225px 18px/18px 225px 18px 255px;
+  box-shadow:5px 6px 0 var(--shadow);padding:20px 22px;margin-bottom:18px}
+h1{margin:0 0 4px;font-size:2rem;text-align:center;transform:rotate(-1.5deg)}
+.sub{text-align:center;margin:0 0 6px}
+ul.rules{margin:8px 0 0;padding-left:1.2em;font-size:.95rem}
+.digits{display:flex;gap:12px;justify-content:center;margin:12px 0}
+.digits input{width:62px;height:72px;text-align:center;font:inherit;font-size:2rem;color:var(--ink);
+  background:#fff0;border:3px dashed var(--line);border-radius:18px 8px 20px 10px/10px 20px 8px 18px;outline:none}
+.digits input:nth-child(even){transform:rotate(1.5deg)}
+.digits input:nth-child(odd){transform:rotate(-1.5deg)}
+.digits input:focus{background:var(--soft);border-style:solid}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+button{font:inherit;font-size:1.05rem;color:var(--ink);background:var(--accent);cursor:pointer;
+  border:3px solid var(--line);border-radius:30px 10px 28px 12px/12px 28px 10px 30px;
+  padding:6px 20px;box-shadow:3px 4px 0 var(--shadow)}
+button:hover{transform:translateY(-1px) rotate(-1deg)}
+button:active{transform:translate(2px,3px);box-shadow:none}
+button.alt{background:var(--paper)}
+button:disabled{opacity:.5;cursor:not-allowed}
+#msg{min-height:1.8em;text-align:center;margin:10px 0 0;font-size:1.05rem}
+#msg.err{color:var(--warn)} #msg.ok{color:var(--ok);font-size:1.2rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.sw input{width:22px;height:22px;accent-color:var(--ok);cursor:pointer}
+#dbg{margin-top:10px;padding:6px 14px;text-align:center;border:2px dashed var(--warn);
+  border-radius:14px 6px 16px 8px;color:var(--warn)}
+[hidden]{display:none!important}
+.hhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.hnote{font-size:.9rem;opacity:.75;margin:2px 0 8px}
+details.game{border:2px solid var(--line);border-radius:16px 6px 18px 8px/8px 18px 6px 16px;
+  margin:10px 0;background:var(--paper)}
+details.game>summary{cursor:pointer;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+details.game[open]>summary{border-bottom:2px dotted var(--line)}
+.badge{padding:0 12px;border:2px solid var(--line);border-radius:14px 6px 14px 6px;font-size:.95rem}
+.badge.playing{background:var(--accent)}
+.badge.solved{border-color:var(--ok);color:var(--ok)}
+.badge.incomplete{border-color:var(--warn);color:var(--warn);border-style:dashed}
+.gbody{padding:8px 12px 12px;font-size:.95rem}
+.gbody p{margin:2px 0}
+.tw{overflow-x:auto;margin-top:6px}
+table{border-collapse:collapse;width:100%;min-width:280px}
+th,td{padding:4px 8px;text-align:center;border-bottom:2px dotted var(--line)}
+th{border-bottom:2px solid var(--line)}
+td.g{letter-spacing:.25em;font-size:1.2rem}
+.none{opacity:.65;margin:6px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>🌿 幾A幾B 猜數字 <small>版本2</small></h1>
+    <p class="sub">這一版會記錄每一局的猜測歷史</p>
+    <ul class="rules">
+      <li>答案由 0～9 中四個不重複的數字組成，可以 0 開頭。</li>
+      <li>A＝數字與位置都對；B＝數字對但位置不同。猜中 4A0B 完成本局。</li>
+      <li>按「開新局（保留紀錄）」會保留舊局；重新整理網頁會清空全部歷史。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="top">
+      <strong id="count">本局已猜 0 次</strong>
+      <label class="sw"><input type="checkbox" id="debug"> 除錯模式</label>
+    </div>
+    <div id="dbg" hidden>🔍 本局答案：<b id="ans"></b></div>
+
+    <div class="digits" id="boxes">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 1 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 2 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 3 位">
+      <input inputmode="numeric" maxlength="1" autocomplete="off" aria-label="第 4 位">
+    </div>
+    <div class="row">
+      <button id="go">送出猜測</button>
+      <button id="new" class="alt">開新局（保留紀錄）</button>
+    </div>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="card">
+    <div class="hhead"><strong>📚 歷史紀錄</strong><span id="total"></span></div>
+    <p class="hnote">每局一個區塊，展開後一次有效猜測為一列。</p>
+    <div id="hist"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#boxes input'));
+  var msg = document.getElementById('msg'), hist = document.getElementById('hist');
+  var count = document.getElementById('count'), total = document.getElementById('total');
+  var dbg = document.getElementById('debug'), dbgBox = document.getElementById('dbg');
+  var ansEl = document.getElementById('ans'), go = document.getElementById('go');
+  var games = [], seq = 0, open = {};
+  var LABEL = { playing:'進行中', solved:'已猜對', incomplete:'未完成' };
+
+  function cur(){ return games[games.length - 1]; }
+  function draw(){
+    var d = '0123456789'.split('');
+    for (var i = d.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = d[i]; d[i] = d[j]; d[j] = t;
+    }
+    return d.slice(0, 4).join('');
+  }
+  function fmt(d){
+    return d.toLocaleString('zh-TW', { hour12:false, month:'numeric', day:'numeric',
+      hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  }
+  function say(t, cls){ msg.textContent = t; msg.className = cls || ''; }
+  function showDebug(){ dbgBox.hidden = !dbg.checked; ansEl.textContent = cur().answer; render(); }
+  function clearBoxes(){ boxes.forEach(function(b){ b.value = ''; }); boxes[0].focus(); }
+  function el(tag, text, cls){
+    var e = document.createElement(tag);
+    if (text != null) e.textContent = text;
+    if (cls) e.className = cls;
+    return e;
+  }
+
+  function render(){
+    var c = cur();
+    count.textContent = '本局已猜 ' + c.guesses.length + ' 次';
+    total.textContent = '共 ' + games.length + ' 局';
+    hist.innerHTML = '';
+    for (var k = games.length - 1; k >= 0; k--) {
+      (function(g){
+        var det = el('details', null, 'game');
+        det.open = !!open[g.id];
+        det.addEventListener('toggle', function(){ open[g.id] = det.open; });
+        var sum = el('summary');
+        sum.appendChild(el('strong', '第 ' + g.id + ' 局'));
+        sum.appendChild(el('span', LABEL[g.status], 'badge ' + g.status));
+        sum.appendChild(el('span', g.guesses.length + ' 次猜測'));
+        det.appendChild(sum);
+
+        var body = el('div', null, 'gbody');
+        body.appendChild(el('p', '開始時間：' + fmt(g.start)));
+        if (g.status === 'solved') body.appendChild(el('p', '成功完成時間：' + fmt(g.end)));
+        if (g.status === 'incomplete') body.appendChild(el('p', '停止作答時間：' + fmt(g.end) + '（不是完成時間）'));
+        if (g.status === 'solved' || dbg.checked)
+          body.appendChild(el('p', '答案：' + g.answer));
+        else if (g.status === 'incomplete')
+          body.appendChild(el('p', '答案：未公開（開啟除錯模式可查看目前這局的答案）'));
+
+        if (g.guesses.length === 0) {
+          body.appendChild(el('p', '這一局還沒有任何有效猜測。', 'none'));
+        } else {
+          var tw = el('div', null, 'tw'), tb = el('table');
+          var hr = el('tr');
+          ['次數', '猜測', '結果', '時間'].forEach(function(h){ hr.appendChild(el('th', h)); });
+          tb.appendChild(hr);
+          g.guesses.forEach(function(x, i){
+            var tr = el('tr');
+            tr.appendChild(el('td', String(i + 1)));
+            tr.appendChild(el('td', x.g, 'g'));
+            tr.appendChild(el('td', x.a + 'A' + x.b + 'B'));
+            tr.appendChild(el('td', fmt(x.t)));
+            tb.appendChild(tr);
+          });
+          tw.appendChild(tb); body.appendChild(tw);
+        }
+        det.appendChild(body);
+        hist.appendChild(det);
+      })(games[k]);
+    }
+  }
+
+  function newGame(){
+    var prev = games.length ? cur() : null;
+    if (prev) {
+      if (prev.status === 'playing') { prev.status = 'incomplete'; prev.end = new Date(); }
+      open[prev.id] = false;
+    }
+    var g = { id: ++seq, answer: draw(), start: new Date(), guesses: [], status: 'playing', end: null };
+    games.push(g); open[g.id] = true;
+    dbg.checked = false; dbgBox.hidden = true; ansEl.textContent = g.answer;
+    go.disabled = false;
+    boxes.forEach(function(b){ b.disabled = false; });
+    say(prev ? '新的一局開始囉！上一局已保留在歷史紀錄。' : '新的一局開始囉！');
+    render(); clearBoxes();
+  }
+
+  function submit(){
+    var c = cur();
+    if (c.status !== 'playing') return;
+    var vals = boxes.map(function(b){ return b.value.trim(); });
+    if (vals.some(function(v){ return v === ''; })) return say('請填滿四個位置，不能留白喔！', 'err');
+    if (vals.some(function(v){ return !/^[0-9]$/.test(v); })) return say('只能輸入 0～9 的數字喔！', 'err');
+    if (new Set(vals).size !== 4) return say('四個數字不可以重複，請修正後再送出！', 'err');
+
+    var a = 0, b = 0;
+    for (var i = 0; i < 4; i++) {
+      if (vals[i] === c.answer[i]) a++;
+      else if (c.answer.indexOf(vals[i]) !== -1) b++;
+    }
+    c.guesses.push({ g: vals.join(''), a: a, b: b, t: new Date() });
+
+    if (a === 4) {
+      c.status = 'solved'; c.end = new Date();
+      go.disabled = true; boxes.forEach(function(x){ x.disabled = true; });
+      say('🎉 4A0B！答案是 ' + c.answer + '，你共猜了 ' + c.guesses.length + ' 次。', 'ok');
+      render();
+    } else {
+      say('結果：' + a + 'A' + b + 'B，再試試看！');
+      render(); clearBoxes();
+    }
+  }
+
+  boxes.forEach(function(b, i){
+    b.addEventListener('input', function(){
+      if (/^[0-9]$/.test(b.value) && i < 3) boxes[i + 1].focus();
+    });
+    b.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') submit();
+      else if (e.key === 'Backspace' && b.value === '' && i > 0) boxes[i - 1].focus();
+      else if (e.key === 'ArrowLeft' && i > 0) boxes[i - 1].focus();
+      else if (e.key === 'ArrowRight' && i < 3) boxes[i + 1].focus();
+    });
+    b.addEventListener('focus', function(){ b.select(); });
+  });
+
+  go.addEventListener('click', submit);
+  document.getElementById('new').addEventListener('click', newGame);
+  dbg.addEventListener('change', showDebug); // 只切換顯示，不影響答案、紀錄與次數
+
+  newGame();
+})();
+</script>
+</body>
+</html>
